@@ -1,0 +1,42 @@
+{% for mail in mail1 %}
+    {% if mail.status==0 %}
+        <tr class="unread">
+            {% else %}
+        <tr class="read">
+    {% endif %}
+<td class="check-mail">
+    <input type="checkbox" class="i-checks" id="{{ mail.id }}" name="{{ mail.id }}">
+</td>
+<td class="mail-ontact"><a href="{{ url_for('.mail_detail',id=mail.id) }}">{{ mail.sender }}</a></td>
+<td class="mail-subject"><a href="{{ url_for('.mail_detail',id=mail.id) }}">{{ mail.subject }}</a></td>
+<td class=""></td>
+<td class="text-right mail-date">{{ moment(mail.send_time).fromNow() }}</td>
+</tr>
+{% endfor %}
+{% for mail in mail2 %}
+    {% if mail.status==0 %}
+        <tr class="unread">
+            {% else %}
+        <tr class="read">
+    {% endif %}
+<td class="check-mail">
+    <input type="checkbox" class="i-checks" id="{{ mail.id }}" name="{{ mail.id }}">
+</td>
+<td class="mail-ontact"><a href="{{ url_for('.mail_detail',id=mail.id) }}">{{ mail.sender }}</a></td>
+<td class="mail-subject"><a href="{{ url_for('.mail_detail',id=mail.id) }}">{{ mail.subject }}</a></td>
+<td class=""></td>
+<td class="text-right mail-date">{{ moment(mail.send_time).fromNow() }}</td>
+</tr>
+{% endfor %}
+{% for mail in mail3 %}
+    {% if mail.status==0 %}
+        <tr class="unread">
+            {% else %}
+        <tr class="read">
+    {% endif %}
+<td class="mail-ontact"><a href="{{ url_for('.mail_detail',id=mail.id) }}">{{ mail.get_sender_name() }}</a></td>
+<td class="mail-subject"><a href="{{ url_for('.mail_detail',id=mail.id) }}">{{ mail.subject }}</a></td>
+<td class=""></td>
+<td class="text-right mail-date">{{ moment(mail.send_time).fromNow() }}</td>
+</tr>
+{% endfor %}

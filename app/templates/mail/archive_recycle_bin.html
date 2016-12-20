@@ -1,0 +1,89 @@
+{% extends 'base_page/base_main.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+    <link href="/static/Admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/Admin/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/static/Admin/css/plugins/footable/footable.core.css" rel="stylesheet">
+    <link href="/static/Admin/css/animate.css" rel="stylesheet">
+    <link href="/static/Admin/css/style.css" rel="stylesheet">
+{% endblock %}
+
+{% block page_content %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>{{ type }}</h2>
+            {% for message in get_flashed_messages() %}
+                <div class="alert alert-warning">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-lg-2">
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <form class="m-t" role="form" method="post">
+                            {{ form.csrf_token }}
+                            <div align="right">
+                                {{ form.name }}
+                                {{ form.key_words() }}
+                                {{ form.search(type='submit') }}
+                            </div>
+                        </form>
+                        <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="30">
+                            <thead>
+                            <tr>
+                                <th data-toggle="true">学号</th>
+                                <th>姓名</th>
+                                <th>性别</th>
+                                <th>学院</th>
+                                <th>年级</th>
+                                <th>政治面貌</th>
+                                <th data-hide="all">年龄</th>
+                                <th data-hide="all">出生日期</th>
+                                <th data-hide="all">家庭住址</th>
+                                <th data-hide="all">入学日期</th>
+                                <th>档案状态</th>
+                                <th>档案管理</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% include '_archive_table.html' %}
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colspan="5">
+                                    <ul class="pagination pull-right"></ul>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/Admin/js/jquery-2.1.1.js"></script>
+    <script src="/static/Admin/js/bootstrap.min.js"></script>
+    <script src="/static/Admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/static/Admin/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/static/Admin/js/plugins/footable/footable.all.min.js"></script>
+    <script src="/static/Admin/js/inspinia.js"></script>
+    <script src="/static/Admin/js/plugins/pace/pace.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.footable').footable();
+            $('.footable2').footable();
+        });
+
+    </script>
+{% endblock %}

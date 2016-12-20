@@ -1,0 +1,186 @@
+{% extends 'base_page/base_main.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+    <title> 单个导入 | 档案管理系统 </title>
+
+    {{ super() }}
+    <link href="{{ url_for('static', filename='zcss/plugins/jasny/jasny-bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='MyStyle.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='Admin/css/plugins/cropper/cropper.min.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block page_content %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>档案导入</h2>
+            {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>基本信息填写
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <form method="post" class="form-horizontal">
+                        {{ form.csrf_token }}
+                        <div class="form-group"><label class="col-sm-2 control-label">姓名</label>
+                            <div class="col-sm-10">
+                                {{ form.name(type="text",class="form-control",required="") }}
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group"><label class="col-sm-2 control-label">出生年月</label>
+                            <div class="col-sm-10">
+                                <input id='birth' name="birth" type="text" class="form-control"
+                                       data-mask="9999-99-99" placeholder="" required="">
+                                <span class="help-block m-b-none">示例：2000-01-01</span>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group"><label class="col-sm-2 control-label">年龄</label>
+                            <div class="col-sm-10">
+                                <input id='age' name="age" type="text" class="form-control"
+                                       data-mask="99" placeholder="" required="">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group"><label class="col-sm-2 control-label">性别</label>
+                            <div class="col-sm-10">
+                                {{ form.sex(class="form-control",required="") }}
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group"><label class="col-sm-2 control-label">家庭住址</label>
+                            <div class="col-sm-10">
+                                {{ form.address(type="text",class="form-control",required="") }}
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group"><label class="col-sm-2 control-label">年级</label>
+                            <div class="col-sm-10">
+                                <input id='grade' name="grade" type="text" class="form-control"
+                                       data-mask="9999" placeholder="" required="">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group"><label class="col-sm-2 control-label">政治面貌</label>
+                            <div class="col-sm-10">
+                                {{ form.political_status(class="form-control",required="") }}
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group"><label class="col-sm-2 control-label">身份证号</label>
+                            <div class="col-sm-10">
+                                <input id='ID_number' name="ID_number" type="text" class="form-control"
+                                       data-mask="9999-99-9999-99-99-9999" placeholder="" required="">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+
+                        <div class="form-group"><label class="col-sm-2 control-label">民族</label>
+                            <div class="col-sm-10">
+                                {{ form.nation(class="form-control",required="") }}
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group"><label class="col-sm-2 control-label">专业</label>
+                            <div class="col-sm-10">
+                                {{ form.academy(class="form-control",required="") }}
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group"><label class="col-sm-2 control-label">学号</label>
+                            <div class="col-sm-10">
+                                <input id='student_id' name="student_id" type="text" class="form-control"
+                                       data-mask="9999-999-999" placeholder="" required=""></div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group"><label class="col-sm-2 control-label">邮箱地址</label>
+                            <div class="col-sm-10">
+                                {{ form.email(type="text",class="form-control",required="") }}
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div align="right">
+                            {{ form.submit(class="btn btn-primary block m-b btnn") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript"
+            src="{{ url_for('static',filename='Admin/js/plugins/jasny/jasny-bootstrap.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static',filename='asdfasdfss/fileinput.js') }}"></script>
+    <script>
+        $("#file-1").fileinput({
+            allowedFileExtensions: ['jpg'],
+            overwriteInitial: false,
+            maxFileSize: 50000,
+            maxFilesNum: 10,
+            slugCallback: function (filename) {
+                return filename.replace('(', '_').replace(']', '_');
+            }
+        });
+    </script>
+    <script type="text/javascript"
+            src="{{ url_for('static',filename='Admin/js/plugins/cropper/cropper.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function () {
+            var $image = $(".image-crop > img")
+            $($image).cropper({
+                aspectRatio: NaN,
+                preview: ".img-preview",
+                done: function (data) {
+                    // Output the result data for cropping image.
+                }
+            });
+
+            var $inputImage = $("#inputImage");
+            if (window.FileReader) {
+                $inputImage.change(function () {
+                    var fileReader = new FileReader(),
+                            files = this.files,
+                            file;
+
+                    if (!files.length) {
+                        return;
+                    }
+
+                    file = files[0];
+
+                    if (/^image\/\w+$/.test(file.type)) {
+                        fileReader.readAsDataURL(file);
+                        fileReader.onload = function () {
+                            $inputImage.val("");
+                            $image.cropper("reset", true).cropper("replace", this.result);
+                        };
+                    } else {
+                        showMessage("Please choose an image file.");
+                    }
+                });
+            } else {
+                $inputImage.addClass("hide");
+            }
+
+            $("#download").click(function () {
+                window.open($image.cropper("getDataURL"));
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base_page/base_mail.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+    <title> 收件箱 | 档案管理系统 </title>
+
+    {{ super() }}
+{% endblock %}
+
+{% block mail_content %}
+    <div class="mail-box-header">
+        <div class="pull-right tooltip-demo">
+            <button class="btn btn-white btn-sm" data-toggle="tooltip"
+                    data-placement="top" title="Move to draft folder"><i class="fa fa-pencil"></i>存草稿
+            </button>
+            <button href="{{ url_for('main.mail_inbox') }}" class="btn btn-danger btn-sm" data-toggle="tooltip"
+                    data-placement="top" title="Discard email"><i class="fa fa-times"></i>放弃
+            </button>
+        </div>
+        <h2>
+            新邮件
+        </h2>
+    </div>
+    <div class="mail-box">
+        <div class="mail-body">
+            <form class="form-horizontal" method="get">
+                <div class="form-group"><label class="col-sm-2 control-label">收件人:</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="receiver" id="receiver"></div>
+                </div>
+                <div class="form-group"><label class="col-sm-2 control-label">主题:</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" value="" name="subject" id="subject">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="mail-text h-200">
+            <div class="summernote">
+                <h3>在这里输入</h3>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="mail-body text-right tooltip-demo">
+            <button class="btn btn-sm btn-primary" data-toggle="tooltip" name="send" id="send"
+                    data-placement="top" title="Send"><i class="fa fa-reply"></i> 发送
+            </button>
+            <button href="{{ url_for('main.mail_inbox') }}" class="btn btn-white btn-sm" data-toggle="tooltip"
+                    data-placement="top" title="Discard email"><i class="fa fa-times"></i> 关闭
+            </button>
+            <button class="btn btn-white btn-sm" data-toggle="tooltip" name="draft" id="draft"
+                    data-placement="top" title="Move to draft folder"><i class="fa fa-pencil"></i> 存草稿
+            </button>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+{% endblock %}

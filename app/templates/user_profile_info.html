@@ -1,0 +1,118 @@
+{% extends 'base_page/base_main.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+    <title> 用户资料 | 档案管理系统 </title>
+    {{ super() }}
+{% endblock %}
+
+{% block page_content %}
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="wrapper wrapper-content">
+        <div class="row animated fadeInRight">
+            <div class="col-md-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>详细资料</h5>
+                    </div>
+                    <div align="center">
+                        <div class="ibox-content no-padding border-left-right">
+                            <br>
+                            <img alt="image" class="img-responsive"
+                                 src="{{ url_for('static',filename=user.get_pic()) }}">
+                        </div>
+                        <div class="ibox-content profile-content">
+                            <h2><strong>{{ user.name }}</strong></h2>
+                            <br>
+                            <h3><i class="fa fa-file-word-o"></i> {{ user.get_role() }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Activites</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form method="post" class="form-horizontal">
+                            {{ form.csrf_token }}
+                            <div class="form-group"><label class="col-sm-2 control-label">姓名</label>
+                                <div class="col-sm-10">
+                                    <input id='name' name="name" type="text" class="form-control"
+                                           value="{{ user.name }}" required="">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">邮箱</label>
+                                <div class="col-sm-10">
+                                    <input id='email' name="email" type="text" class="form-control"
+                                           value="{{ user.email }}" required="">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">用户名</label>
+                                <div class="col-sm-10">
+                                    <input id='username' name="username" type="text" class="form-control"
+                                           value="{{ user.username }}" required=""></div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            {% if user.is_student() %}
+                                <div class="form-group"><label class="col-sm-2 control-label">学号</label>
+                                    <div class="col-sm-10">
+                                        <input id='student_id' name="student_id" type="text" class="form-control"
+                                               value="{{ user.student_id }}" required="" readonly>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                            {% endif %}
+                            <div class="form-group"><label class="col-sm-2 control-label">邮箱状态</label>
+                                <div class="col-sm-10">
+                                    {% if user.confirmed %}
+                                        <input id='student_id' name="student_id" type="text" class="form-control"
+                                               value="已验证邮箱" required="" readonly="">
+                                    {% else %}
+                                        <input id='student_id' name="student_id" type="text" class="form-control"
+                                               value="未验证邮箱" required="" readonly="">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">注册日期</label>
+                                <div class="col-sm-10">
+                                    <input id='member_since' name="member_since" type="text" class="form-control"
+                                           value="{{ user.member_since }}" required="" readonly=""></div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">上次登录</label>
+                                <div class="col-sm-10">
+                                    <input id='last_seen' name="last_seen" type="text" class="form-control"
+                                           value="{{ user.last_seen }}" required="" readonly>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            {% if type == 1 %}
+                                <div align="right">
+                                    {{ form.submit(class="btn btn-primary block m-b btnn") }}
+                                </div>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        $("#selector_role").val('{{ user.role_id }}');
+        $("#selector_confirmed").val('{{ user.confirmed }}');
+    </script>
+{% endblock %}

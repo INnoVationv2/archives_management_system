@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+
+
+{% block head %}
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link href="{{ url_for('static', filename='Admin/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='Admin/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='Admin/css/plugins/toastr/toastr.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='Admin/js/plugins/gritter/jquery.gritter.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='Admin/css/animate.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='Admin/css/style.css') }}" rel="stylesheet">
+
+{% endblock %}
+
+{% block content %}
+    <body>
+    <div id="wrapper">
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav metismenu" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element">
+                            <img alt="image" class="img-circle" style="height: 80px"
+                                 src="{{ url_for('static',filename=current_user.get_pic()) }}"/>
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="show_all.html#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong
+                                    class="font-bold">{{ current_user.name }}</strong>
+                             </span> <span class="text-muted text-xs block">个人中心 <b
+                                    class="caret"></b></span> </span> </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <li><a href="{{ url_for('.user_profile_info',id=current_user.id) }}">帐号资料</a></li>
+                                <li><a href="{{ url_for('.mail_inbox') }}">邮箱</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{ url_for('auth.logout') }}">登出</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    {% if current_user.is_administrator() %}
+                        {% if select_main==1 %}
+                            <li class="active">
+                        {% else %}
+                             <li>
+                        {% endif %}
+                    <a href="{{ url_for('.index_admin') }}"><i class="fa fa-globe"></i> <span
+                            class="nav-label">主页</span></a>
+                    </li>
+                        {% if select_main==2 %}
+                            <li class="active">
+                        {% else %}
+                            <li>
+                        {% endif %}
+                            <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">档案管理</span>
+                                <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                            {% if select_main==2 and select_second==1 %}
+                                <li class="active">
+                            {% else %}
+                                <li>
+                            {% endif %}
+                                    <a href="{{ url_for('main.show_all') }}">档案查看</a></li>
+                            {% if select_main==2 and select_second==2 %}
+                                <li class="active">
+                            {% else %}
+                                <li>
+                            {% endif %}
+                                    <a href="#">档案录入<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        {% if select_main==2 and select_second==2 and select_third==1 %}
+                                           <li class="active">
+                                        {% else %}
+                                           <li>
+                                        {% endif %}
+                                            <a href="{{ url_for('main.import_single') }}">单个录入</a>
+                                        </li>
+                                        {% if select_main==2 and select_second==2 and select_third==2 %}
+                                           <li class="active">
+                                        {% else %}
+                                           <li>
+                                        {% endif %}
+                                            <a href="{{ url_for('main.import_multi') }}">批量导入</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            {% if select_main==2 and select_second==3 %}
+                                <li class="active">
+                            {% else %}
+                                <li>
+                            {% endif %}
+                                <a href="{{ url_for('.archive_recycle_bin') }}">档案回收站</a></li>
+                            {% if select_main==2 and select_second==4 %}
+                                <li class="active">
+                            {% else %}
+                                <li>
+                            {% endif %}
+                                <a href="{{ url_for('.batch_management') }}">档案批量管理</a></li>
+                            </ul>
+                        </li>
+                        {% if select_main==3 %}
+                            <li class="active">
+                        {% else %}
+                            <li>
+                        {% endif %}
+                            <a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">借阅管理</span>
+                                <span class="fa arrow"></span>
+                            </a>
+                            <span class="nav-label"></span>
+                            <span class="fa arrow"></span>
+                            <ul class="nav nav-second-level collapse">
+                                {% if select_main==3 and select_second==1 %}
+                                    <li class="active">
+                                {% else %}
+                                    <li>
+                                {% endif %}
+                                    <a href="{{ url_for('.archive_applys') }}">档案申请管理</a>
+                                </li>
+                                {% if select_main==3 and select_second==2 %}
+                                    <li class="active">
+                                {% else %}
+                                    <li>
+                                {% endif %}
+                                    <a href="{{ url_for('.waiting_removed') }}">待取走档案</a>
+                                </li>
+                                {% if select_main==3 and select_second==3 %}
+                                    <li class="active">
+                                {% else %}
+                                    <li>
+                                {% endif %}
+                                    <a href="{{ url_for('.waiting_return') }}">待归还档案</a>
+                                </li>
+                            </ul>
+                        </li>
+                        {% if select_main==4 %}
+                            <li class="active">
+                        {% else %}
+                            <li>
+                        {% endif %}
+                            <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">帐号管理</span>
+                                <span class="fa arrow"></span>
+                            </a>
+                            <span class="nav-label"></span>
+                            <span class="fa arrow"></span>
+                            <ul class="nav nav-second-level collapse">
+                            {% if select_main==4 %}
+                                <li class="active">
+                            {% else %}
+                                <li>
+                            {% endif %}
+                                <a href="{{ url_for('.show_all_user') }}">所有帐号</a></li>
+                            </ul>
+                        </li>
+                        {% if select_main==9 %}
+                            <li class="active">
+                        {% else %}
+                            <li>
+                        {% endif %}
+                            <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">个人资料</span>
+                                <span
+                                        class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                            {% if select_main==9 and select_second==1 %}
+                               <li class="active">
+                            {% else %}
+                               <li>
+                            {% endif %}
+                                    <a href="{{ url_for('.user_profile_info',id=current_user.id) }}">帐号资料</a></li>
+                                {% if select_main==9 and select_second==2 %}
+                                   <li class="active">
+                                {% else %}
+                                    <li>
+                                {% endif %}
+                                    <a href="#">个人帐号管理<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                    {% if select_main==9 and select_second==2 and select_third==1 %}
+                                        <li class="active">
+                                     {% else %}
+                                        <li>
+                                     {% endif %}
+                                            <a href="{{ url_for('.user_profile_edit') }}">帐号资料修改</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url_for('auth.change_password') }}">修改帐号密码</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url_for('auth.change_email_request') }}">修改邮箱地址</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        {% if select_main==10 %}
+                            <li class="active">
+                        {% else %}
+                            <li>
+                        {% endif %}
+                            <a href="#"><i class="fa fa-envelope"></i> <span
+                                    class="nav-label">站内信</span>
+                                <span class="fa arrow"></span>
+                                {% if current_user.get_unread_mail_num() >0 %}
+                                    <span class="label label-warning pull-right">{{ current_user.get_unread_mail_num() }}</span>
+                                    </a>
+                                {% endif %}
+                            <ul class="nav nav-second-level collapse">
+                                {% if select_main==10 %}
+                                  <li class="active">
+                                {% else %}
+                                  <li>
+                                {% endif %}
+                                <a href="{{ url_for('main.mail_inbox') }}">所有邮件</a></li>
+                            </ul>
+                        </li>
+                    {% elif current_user.is_student() %}
+                        {% if select_main==1 %}
+                            <li class="active">
+                        {% else %}
+                             <li>
+                        {% endif %}
+                            <a href="{{ url_for('.index') }}"><i class="fa fa-globe"></i> <span
+                                    class="nav-label">主页</span></a>
+                        </li>
+                        {% if select_main==2 %}
+                            <li class="active">
+                        {% else %}
+                             <li>
+                        {% endif %}
+                            <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">档案管理</span>
+                                <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                {% if select_main==2 and select_second==1 %}
+                                    <li class="active">
+                                {% else %}
+                                    <li>
+                                {% endif %}
+                                    <a href="{{ url_for('.archive_info',student_id=current_user.student_id) }}">我的档案</a>
+                                </li>
+                                {% if select_main==2 and select_second==2 %}
+                                    <li class="active">
+                                {% else %}
+                                    <li>
+                                {% endif %}
+                                    <a href="{{ url_for('.archive_apply') }}">档案申请</a>
+                                </li>
+                                {% if select_main==2 and select_second==3 %}
+                                    <li class="active">
+                                {% else %}
+                                    <li>
+                                {% endif %}
+                                    <a href="{{ url_for('.person_archive_applys') }}">档案申请状态</a>
+                                </li>
+                            </ul>
+                        </li>
+                        {% if select_main==9 %}
+                            <li class="active">
+                        {% else %}
+                             <li>
+                        {% endif %}
+                            <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">个人资料</span>
+                                <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                {% if select_main==9 and select_second==1 %}
+                                    <li class="active">
+                                {% else %}
+                                    <li>
+                                {% endif %}
+                                    <a href="{{ url_for('.user_profile_info',id=current_user.id) }}">帐号资料</a>
+                                </li>
+                                {% if select_main==9 and select_second==2 %}
+                                    <li class="active">
+                                {% else %}
+                                    <li>
+                                {% endif %}
+                                    <a href="#">个人帐号管理<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                    {% if select_main==9 and select_second==2 and select_third==1 %}
+                                        <li class="active">
+                                    {% else %}
+                                        <li>
+                                    {% endif %}
+                                            <a href="{{ url_for('.user_profile_edit') }}">帐号资料修改</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url_for('auth.change_password') }}">修改帐号密码</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url_for('auth.change_email_request') }}">修改邮箱地址</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        {% if select_main==10 %}
+                            <li class="active">
+                        {% else %}
+                             <li>
+                        {% endif %}
+                            <a href="#"><i class="fa fa-envelope"></i> <span
+                                    class="nav-label">站内信</span>
+                                <span class="fa arrow"></span>
+                                {% if current_user.get_unread_mail_num() >0 %}
+                                    <span class="label label-warning pull-right">{{ current_user.get_unread_mail_num() }}</span>
+                                    </a>
+                                {% endif %}
+                            <ul class="nav nav-second-level collapse">
+                            {% if select_main==10 %}
+                                    <li class="active">
+                            {% else %}
+                                    <li>
+                            {% endif %}
+                                    <a href="{{ url_for('main.mail_inbox') }}">所有邮件</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        {% if select_main==1 %}
+                            <li class="active">
+                        {% else %}
+                            <li>
+                        {% endif %}
+                            <a href="{{ url_for('.index') }}"><i class="fa fa-globe"></i> <span
+                                    class="nav-label">主页</span></a>
+                        </li>
+                        {% if select_main==2 %}
+                            <li class="active">
+                        {% else %}
+                            <li>
+                        {% endif %}
+                        <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">档案管理</span>
+                            <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{{ url_for('main.archive_apply') }}">档案申请</a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('main.person_archive_applys') }}">档案申请状态</a>
+                            </li>
+                        </ul>
+                        </li>
+                        {% if select_main==9 %}
+                            <li class="active">
+                        {% else %}
+                            <li>
+                        {% endif %}
+                            <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">个人资料</span>
+                                <span
+                                        class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                            {% if select_main==9 and select_second==1 %}
+                                <li class="active">
+                            {% else %}
+                                <li>
+                            {% endif %}
+                                    <a href="{{ url_for('.user_profile_info',id=current_user.id) }}">帐号资料</a></li>
+                            {% if select_main==9 and select_second==2 %}
+                                <li class="active">
+                            {% else %}
+                                <li>
+                            {% endif %}
+                                    <a href="#">个人帐号管理<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                    {% if select_main==9 and select_second==2 and select_third==1 %}
+                                        <li class="active">
+                                    {% else %}
+                                        <li>
+                                    {% endif %}
+                                            <a href="{{ url_for('.user_profile_edit') }}">帐号资料修改</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url_for('auth.change_password') }}">修改帐号密码</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url_for('auth.change_email_request') }}">修改邮箱地址</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        {% if select_main==10 %}
+                            <li class="active">
+                        {% else %}
+                            <li>
+                        {% endif %}
+                            <a href="#"><i class="fa fa-envelope"></i>
+                                <span
+                                        class="nav-label">站内信
+                                </span>
+                                <span class="fa arrow"></span>
+                                {% if current_user.get_unread_mail_num() >0 %}
+                                    <span class="label label-warning pull-right">{{ current_user.get_unread_mail_num() }}</span>
+                                    </a>
+                                {% endif %}
+                            <ul class="nav nav-second-level collapse">
+                                {% if select_main==10 %}
+                                        <li class="active">
+                                    {% else %}
+                                        <li>
+                                    {% endif %}
+                                    <a href="{{ url_for('main.mail_inbox') }}">所有邮件</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
+                                class="fa fa-bars"></i> </a>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li>
+                            <span class="m-r-sm text-muted welcome-message">档案管理系统</span>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                <i class="fa fa-envelope"></i> <span
+                                    class="label label-warning">{{ current_user.get_unread_mail_num() }}</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-messages">
+                                <li>
+                                    <div class="dropdown-messages-box">
+                                        <div class="media-body">
+                                            <small class="pull-right">23 小时前</small>
+                                            <strong>已收到你的申请,将在12小时内处理</strong>.
+                                            <br>
+                                            <small class="text-muted">1 天前 14:30 - 12.20.2016</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div class="dropdown-messages-box">
+                                        <div class="media-body ">
+                                            <small class="pull-right text-navy">28 小时前</small>
+                                            <strong>关于问题的答复</strong>. <br>
+                                            <small class="text-muted">2 天前 14:30 - 12.19.2016</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div class="dropdown-messages-box">
+                                        <div class="media-body ">
+                                            <small class="pull-right">48 小时前</small>
+                                            <strong>问题答复--管理员</strong>. <br>
+                                            <small class="text-muted">3 天前 14:30 - 12.18.2016</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div class="text-center link-block">
+                                        <a href="{{ url_for('.mail_inbox') }}">
+                                            <i class="fa fa-envelope"></i> <strong>查看所有邮件</strong>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                <i class="fa fa-bell"></i> <span class="label label-primary">8</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-alerts">
+                                <li>
+                                    <a href="{{ url_for('.mail_inbox') }}">
+                                        <div>
+                                            <i class="fa fa-envelope fa-fw"></i> 收到新邮件
+                                            <span class="pull-right text-muted small">5 分钟前</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#">
+                                        <div>
+                                            <i class="fa fa-twitter fa-fw"></i> 档案申请有新动态
+                                            <span class="pull-right text-muted small">30 分钟前</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#">
+                                        <div>
+                                            <i class="fa fa-upload fa-fw"></i> 信息更新成功
+                                            <span class="pull-right text-muted small">16 分钟前</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div class="text-center link-block">
+                                        <a href="#">
+                                            <strong>查看所有消息</strong>
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('auth.logout') }}">
+                                <i class="fa fa-sign-out"></i> 登出
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            {% block page_content %}
+            {% endblock %}
+            <div class="footer">
+                <div>
+                    <strong>Copyright</strong> INnoVation&copy; 2016
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static',filename='Admin/js/jquery-2.1.1.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='Admin/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static',filename='Admin/js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static',filename='Admin/js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='Admin/js/plugins/pace/pace.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='Admin/js/inspinia.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='Admin/js/plugins/pace/pace.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static',filename='Admin/js/plugins/toastr/toastr.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green'
+            });
+        });
+    </script>
+{% endblock %}

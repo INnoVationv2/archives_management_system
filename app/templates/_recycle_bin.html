@@ -1,0 +1,18 @@
+{% for archive in archives %}
+    <tr>
+        <td>{{ archive.student_id }}</td>
+        <td>{{ archive.name }}</td>
+        <td>{{ archive.sex }}</td>
+        <td>{{ archive.academy }}</td>
+        <td>{{ archive.grade }}</td>
+        <td>{{ archive.political_status }}</td>
+        <td>{{ archive.birth }}</td>
+        <td>{{ archive.address }}</td>
+        <td>{{ archive.age }}</td>
+        <td>{{ archive.enrollment_time }}</td>
+        <td>{{ archive.get_status() }}</td>
+        <td><a href="{{ url_for('.archive_recycle_bin_edit', student_id=archive.student_id) }}"
+               class="btn btn-white btn-sm">
+            <i class="fa fa-pencil"></i> 详情 </a></td>
+    </tr>
+{% endfor %}

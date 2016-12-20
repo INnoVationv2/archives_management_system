@@ -1,0 +1,36 @@
+
+
+{% block head %}
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+        <link href="{{ url_for('static', filename='base/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename='fonts/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename='Admin/css/plugins/iCheck/custom.css') }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename='Admin/css/style.css') }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename='Admin/css/animate.css') }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename='MyStyle.css') }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename='Admin/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css') }}"
+              rel="stylesheet">
+
+        <link href="" rel="stylesheet">
+
+
+    </head>
+{% endblock %}
+
+{% block content %}
+    <div class="bg-image"></div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script type="text/javascript"
+            src="{{ url_for('static',filename='Admin/js/plugins/iCheck/icheck.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='Admin/js/jquery-2.1.1.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static',filename='Admin/bootstrap/js/bootstrap.min.js') }}"></script>
+{% endblock %}

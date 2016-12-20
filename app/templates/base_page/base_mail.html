@@ -1,0 +1,48 @@
+{% extends 'base_page/base_main.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block page_content %}
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content mailbox-content">
+                        <div class="file-manager">
+                            {% if current_user.is_administrator() %}
+                                <a class="btn btn-block btn-primary compose-mail"
+                                   href="{{ url_for('main.mail_compose') }}">写邮件</a>
+                            {% else %}
+                                <a class="btn btn-block btn-primary compose-mail"
+                                   href="{{ url_for('main.mail_compose') }}">写邮件</a>
+                            {% endif %}
+                            <div class="space-25"></div>
+                            <h5>Folders</h5>
+                            <ul class="folder-list m-b-md" style="padding: 0">
+                                <li><a href="{{ url_for('main.mail_inbox') }}"> <i class="fa fa-inbox "></i> 收件箱
+                                    {% if current_user.get_unread_mail_num() >0 %}
+                                        <span class="label label-warning pull-right">{{ current_user.get_unread_mail_num() }}</span>
+                                    {% endif %}
+                                </a></li>
+                                <li><a href="{{ url_for('main.mail_send') }}"> <i class="fa fa-envelope-o"></i> 已发送</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url_for('main.mail_draft') }}"> <i class="fa fa-file-text-o"></i> 草稿箱
+                                    </a>
+                                </li>
+                                <li><a href="{{ url_for('main.mail_dustbin') }}"> <i class="fa fa-trash-o"></i> 垃圾箱</a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 animated fadeInRight">
+                {% block mail_content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

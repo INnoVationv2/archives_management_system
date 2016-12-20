@@ -1,0 +1,65 @@
+{% extends 'base_page/base_mail.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+    <title> 邮件 | 档案管理系统 </title>
+    {{ super() }}
+{% endblock %}
+
+{% block mail_content %}
+    <div class="mail-box-header">
+        <div class="pull-right tooltip-demo">
+            {% if current_user.is_administrator() %}
+                <a href="{{ url_for('main.mail_reply',receiver=mail.sender) }}" class="btn btn-white btn-sm"
+                   data-toggle="tooltip"
+                   data-placement="top"
+                   title="Reply"><i class="fa fa-reply"></i> 回复
+                </a>
+            {% else %}
+                <a href="{{ url_for('main.mail_compose') }}" class="btn btn-white btn-sm"
+                   data-toggle="tooltip"
+                   data-placement="top"
+                   title="Reply"><i class="fa fa-reply"></i> 回复
+                </a>
+            {% endif %}
+        </div>
+        <h2>
+            查看邮件
+        </h2>
+        <div class="mail-tools tooltip-demo m-t-md">
+            <h3>
+                <span class="font-noraml">主题: </span>{{ mail.subject }}
+            </h3>
+            <h5>
+                <span class="pull-right font-noraml">{{ moment(mail.send_time).fromNow() }}</span>
+                <br>
+                <span class="font-noraml">From: </span>{{ mail.get_sender_name() }}
+            </h5>
+        </div>
+    </div>
+    <div class="mail-box">
+        <div class="mail-body">
+            {{ mail.body }}
+        </div>
+        <div class="mail-body text-right tooltip-demo">
+            {% if current_user.is_administrator() %}
+                <a href="{{ url_for('main.mail_reply',receiver=mail.sender) }}" class="btn btn-white btn-sm"
+                   data-toggle="tooltip"
+                   data-placement="top"
+                   title="Reply"><i class="fa fa-reply"></i> 回复
+                </a>
+            {% else %}
+                <a href="{{ url_for('main.mail_compose') }}" class="btn btn-white btn-sm"
+                   data-toggle="tooltip"
+                   data-placement="top"
+                   title="Reply"><i class="fa fa-reply"></i> 回复
+                    z </a>
+            {% endif %}
+            <form class="m-t" role="form" method="post">
+                {{ form.csrf_token }}
+                {{ form.delete(class="btn btn-danger btn-sm") }}
+            </form>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+{% endblock %}

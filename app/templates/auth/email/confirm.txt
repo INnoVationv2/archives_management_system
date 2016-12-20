@@ -1,0 +1,13 @@
+{{ user.username }},
+
+欢迎使用 档案管理系统
+
+为了确认您的账户邮箱地址，请点击此链接:
+
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+祝使用愉快,,
+
+档案管理系统管理团队
+
+注: 回复此邮件无效.

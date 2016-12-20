@@ -1,0 +1,165 @@
+{% extends 'base_page/base_main.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+    <title> 档案信息 | 档案管理系统 </title>
+    {{ super() }}
+{% endblock %}
+
+{% block page_content %}
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="wrapper wrapper-content">
+        <div class="row animated fadeInRight">
+            <div class="col-md-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>详细资料</h5>
+                    </div>
+                    <div align="center">
+                        <div class="ibox-content no-padding border-left-right">
+                            <br>
+                            <img alt="image" class="img-responsive"
+                                 src="{{ url_for('static',filename=archive.get_pic()) }}">
+                        </div>
+                        <div class="ibox-content profile-content">
+                            <h2><strong>{{ archive.name }}</strong></h2>
+                            <br>
+                            <p><i class="fa fa-map-marker"></i> {{ archive.address }}</p>
+                            {% if current_user.is_administrator() %}
+                                <h3><i class="fa fa-file-word-o"></i> {{ archive.get_status() }}</h3>
+                                <div class="user-button">
+                                    <div class="row">
+                                        <button type="button" class="btn btn-primary btn-sm btn-block"
+                                                style="width: 300px">
+                                            <i
+                                                    class="fa fa-envelope">发送站内信</i>
+                                        </button>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Activites</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form method="post" class="form-horizontal">
+                            {{ form.csrf_token }}
+                            <div class="form-group"><label class="col-sm-2 control-label">姓名</label>
+                                <div class="col-sm-10">
+                                    <input id='name' name="name" type="text" class="form-control"
+                                           value="{{ archive.name }}" required="" readonly>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">出生年月</label>
+                                <div class="col-sm-10">
+                                    <input id='birth' name="birth" type="text" class="form-control"
+                                           data-mask="9999-99-99" value="{{ archive.birth }}" required="">
+                                    <span class="help-block m-b-none">示例：2000-01-01</span>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">年龄</label>
+                                <div class="col-sm-10">
+                                    <input id='age' name="age" type="text" class="form-control"
+                                           data-mask="99" value="{{ archive.age }}" required="">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">性别</label>
+                                <div class="col-sm-10">
+                                    <input id='sex' name="sex" type="text" class="form-control"
+                                           data-mask="99" value="{{ archive.sex }}" required="" readonly>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">家庭住址</label>
+                                <div class="col-sm-10">
+                                    {{ form.address(type="text",class="form-control",required="",value=archive.address) }}
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">年级</label>
+                                <div class="col-sm-10">
+                                    <input id='grade' name="grade" type="text" class="form-control"
+                                           data-mask="9999" value="{{ archive.grade }}" required="" readonly>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">政治面貌</label>
+                                <div class="col-sm-10">
+                                    {{ form.political_status(class="form-control",id='selector_political_status',required="") }}
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">身份证号</label>
+                                <div class="col-sm-10">
+                                    <input id='ID_number' name="ID_number" type="text" class="form-control"
+                                           data-mask="9999-99-9999-99-99-9999" value="{{ archive.ID_number }}"
+                                           required="" readonly>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group"><label class="col-sm-2 control-label">民族</label>
+                                <div class="col-sm-10">
+                                    <input id='nation' name="nation" type="text" class="form-control"
+                                           value="{{ archive.nation }}" required="" readonly>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">专业</label>
+                                <div class="col-sm-10">
+                                    {{ form.academy(class="form-control",required="",value=archive.academy) }}
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">学号</label>
+                                <div class="col-sm-10">
+                                    <input id='student_id' name="student_id" type="text" class="form-control"
+                                           data-mask="9999-999-999" value="{{ archive.student_id }}" required="">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">邮箱地址</label>
+                                <div class="col-sm-10">
+                                    {{ form.email(type="text",class="form-control",required="",value=archive.email) }}
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            {% if current_user.is_administrator() %}
+                                <div align="right">
+                                    {% if type==0 %}
+                                        {{ form.submit(class="btn btn-primary block m-b btnn") }}
+                                        {{ form.delete(class="btn btn-danger block m-b btnn") }}
+                                    {% elif archive.delete %}
+                                        {{ form.recovery(class="btn btn-primary block m-b btnn") }}
+                                        </div>
+                                    {% endif %}
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        $("#selector_political_status").val('{{ archive.political_status }}');
+        $("#selector_sex").val('{{ archive.sex }}');
+        $("#selector_nation").val('{{ archive.nation }}');
+    </script>
+{% endblock %}

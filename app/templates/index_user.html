@@ -1,0 +1,339 @@
+{% extends 'base_page/base_main.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+<!DOCTYPE html>
+
+{% block head %}
+
+    <title> 主页 | 档案管理系统 </title>
+
+    <link href="/static/Admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/Admin/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/static/Admin/css/animate.css" rel="stylesheet">
+    <link href="/static/Admin/css/style.css" rel="stylesheet">
+
+{% endblock %}
+
+{% block page_content %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>主页</h2>
+        </div>
+        <div class="col-lg-2">
+
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row m-b-lg m-t-lg">
+            <div class="col-md-6">
+                <div class="profile-image">
+                    <img src="{{ url_for('static',filename=current_user.get_pic()) }}"
+                         class="img-circle circle-border m-b-md" alt="profile">
+                </div>
+                <div class="profile-info">
+                    <div class="">
+                        <div>
+                            <h2 class="no-margins">
+                                你好,{{ current_user.name }}
+                            </h2>
+                            <br>
+                            <h4>{{ current_user.get_role() }}</h4>
+                            <small>
+                                欢迎使用档案管理系统,点击左侧栏按钮开始使用
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <table class="table small m-b-xs">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <strong>142</strong> 次借阅
+                        </td>
+                        <td>
+                            <strong>22</strong> 次电子档案借阅
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>61</strong> 次实体档案借阅
+                        </td>
+                        <td>
+                            <strong>54</strong> 次借阅成功
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>154</strong> 次超期归还
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-3">
+                <small>过去半年借阅情况</small>
+                <h2 class="no-margins">206次</h2>
+                <div id="sparkline1"></div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-lg-3">
+                <div class="col-lg-4">
+                    <div class="widget style1 navy-bg" style="width: 330px">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <i class="fa fa-cloud fa-5x"></i>
+                            </div>
+                            <div class="col-xs-8">
+                                <span> 今日 气温 </span>
+                                <h2 class="font-bold">26'C</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <h3>未阅读邮件</h3>
+                        <ul class="list-unstyled file-list">
+                            <li><a href="index_user.html"><i class="fa fa-envelope-o"></i> 抱歉,你所提交的申请未通过</a></li>
+                            <li><a href="index_user.html"><i class="fa fa-envelope-o"></i></a></li>
+                            <li><a href="index_user.html"><i class="fa fa-envelope-o"></i></a></li>
+                            <li><a href="index_user.html"><i class="fa fa-envelope-o"></i> </a></li>
+                            <li><a href="index_user.html"><i class="fa fa-envelope-o"></i></a></li>
+                            <li><a href="index_user.html"><i class="fa fa-envelope-o"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <h3> 站内信 </h3>
+
+                        <p class="small">
+                            发送邮件给管理员
+                        </p>
+
+                        <div class="form-group">
+                            <label>主题</label>
+                            <input type="email" class="form-control" placeholder="邮件主题">
+                        </div>
+                        <div class="form-group">
+                            <label>正文</label>
+                            <textarea class="form-control" placeholder="邮件正文" rows="3"></textarea>
+                        </div>
+                        <button class="btn btn-primary btn-block"> 发送</button>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-5">
+                <div class="social-feed-box">
+                    <div class="social-avatar">
+                        <div class="media-body">
+                            <h2>
+                                申请动态
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="social-body">
+                        <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="20">
+                            <thead>
+                            <tr>
+                                <th>申请档案学号</th>
+                                <th>申请时间</th>
+                                <th>状态</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="unread">
+                                <td>2014241178</td>
+                                <td>2016-12-21</td>
+                                <td>审核中</td>
+                            </tr>
+                            <tr class="unread">
+                                <td>2014241178</td>
+                                <td>2016-12-20</td>
+                                <td>已通过</td>
+                            </tr>
+                            <tr class="read">
+                                <td>2014241178</td>
+                                <td>2016-12-19</td>
+                                <td>已通过</td>
+                            </tr>
+                            <tr class="read">
+                                <td>2014242188</td>
+                                <td>2016-12-19</td>
+                                <td>未通过</td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="social-feed-box">
+                    <div class="social-avatar">
+                        <div class="media-body">
+                            <h2>
+                                待归还档案
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="social-body">
+                        <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="20">
+                            <thead>
+                            <tr>
+                                <th>申请档案学号</th>
+                                <th>通过时间</th>
+                                <th>剩余有效时间</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="unread">
+                                <td>2014241178</td>
+                                <td>2016-12-21</td>
+                                <td>7天</td>
+                            </tr>
+                            <tr class="unread">
+                                <td>2014241178</td>
+                                <td>2016-12-20</td>
+                                <td>6天</td>
+                            </tr>
+                            <tr class="read">
+                                <td>2014241178</td>
+                                <td>2016-12-19</td>
+                                <td>6天</td>
+                            </tr>
+                            <tr class="read">
+                                <td>2014242188</td>
+                                <td>2016-12-19</td>
+                                <td>已归还</td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 m-b-lg">
+                <div id="vertical-timeline" class="vertical-container light-timeline no-margins">
+                    <div class="vertical-timeline-block">
+                        <div class="vertical-timeline-icon navy-bg">
+                            <i class="fa fa-briefcase"></i>
+                        </div>
+
+                        <div class="vertical-timeline-content">
+                            <h2>更新1.0.0</h2>
+                            <p>
+                                学生档案管理系统功能全部完成
+                                <br>
+                                使用selenium进行测试完成
+                                <br>
+                                开放用户使用
+                            </p>
+                            <a href="index_user.html#" class="btn btn-sm btn-primary"> 马上使用</a>
+                            <span class="vertical-date">
+                                        今天 <br>
+                                        <small>Dec 24</small>
+                                    </span>
+                        </div>
+                    </div>
+
+                    <div class="vertical-timeline-block">
+                        <div class="vertical-timeline-icon blue-bg">
+                            <i class="fa fa-file-text"></i>
+                        </div>
+
+                        <div class="vertical-timeline-content">
+                            <h2>更新 0.9</h2>
+                            <p>
+                                修正了插入数据时的乱码错误
+                                <br>
+                                档案批量管理功能上线
+                                <br>
+                                开放了用户批量管理功能
+                            </p>
+                            <a href="index_user.html#" class="btn btn-sm btn-success"> 了解更多 </a>
+                            <span class="vertical-date">
+                                        3天前 <br>
+                                        <small>Dec 21</small>
+                                    </span>
+                        </div>
+                    </div>
+
+                    <div class="vertical-timeline-block">
+                        <div class="vertical-timeline-icon lazur-bg">
+                            <i class="fa fa-coffee"></i>
+                        </div>
+
+                        <div class="vertical-timeline-content">
+                            <h2>更新 0.8</h2>
+                            <p>
+                                修改档案查询方式,新版本采用ajax加载,更快捷
+                                <br>
+                                优化了档案申请提交功能
+                                <br>
+                                开始采用jinja2模板引擎渲染网页
+                            </p>
+                            <a href="index_user.html#" class="btn btn-sm btn-info"> 了解更多 </a>
+                            <span class="vertical-date"> 4天前 <br><small>Dec 20</small></span>
+                        </div>
+                    </div>
+
+                    <div class="vertical-timeline-block">
+                        <div class="vertical-timeline-icon yellow-bg">
+                            <i class="fa fa-phone"></i>
+                        </div>
+
+                        <div class="vertical-timeline-content">
+                            <h2>更新 0.7</h2>
+                            <p>
+                                修正了插入数据时的乱码错误
+                                <br>
+                                档案批量管理功能上线
+                                <br>
+                                开放了用户批量管理功能
+                            </p>
+                            <span class="vertical-date">4天前 <br><small>Dec 20</small></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <!-- Mainly scripts -->
+    <script src="/static/Admin/js/jquery-2.1.1.js"></script>
+    <script src="/static/Admin/js/bootstrap.js"></script>
+    <script src="/static/Admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/static/Admin/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="/static/Admin/js/inspinia.js"></script>
+    <script src="/static/Admin/js/plugins/pace/pace.min.js"></script>
+
+    <!-- Sparkline -->
+    <script src="/static/Admin/js/plugins/sparkline/jquery.sparkline.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#sparkline1").sparkline([34, 43, 43, 35, 44, 32, 44, 48], {
+                type: 'line',
+                width: '100%',
+                height: '50',
+                lineColor: '#1ab394',
+                fillColor: "transparent"
+            });
+        });
+    </script>
+{% endblock %}

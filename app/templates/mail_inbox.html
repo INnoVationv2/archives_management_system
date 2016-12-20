@@ -1,0 +1,116 @@
+{% extends 'base_page/base_mail.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+    <title> 收件箱 | 档案管理系统 </title>
+
+    <link href="/static/Admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/Admin/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/static/Admin/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/static/Admin/css/animate.css" rel="stylesheet">
+    <link href="/static/Admin/css/style.css" rel="stylesheet">
+{% endblock %}
+
+{% block mail_content %}
+    <div class="mail-box-header">
+        <form method="get" action="index_user.html" class="pull-right mail-search">
+            <div class="input-group">
+                <input type="text" class="form-control input-sm" name="search"
+                       placeholder="搜索邮件">
+                <div class="input-group-btn">
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        搜索
+                    </button>
+                </div>
+            </div>
+        </form>
+        {% if type=='收件箱' %}
+            <h2>
+                {{ type }}
+                {% if current_user.get_mail_num() > 0 %}
+                    ({{ current_user.get_mail_num() }})
+                {% endif %}
+            </h2>
+        {% else %}
+            <h2>
+                {{ type }}
+            </h2>
+        {% endif %}
+        <div class="mail-tools tooltip-demo m-t-md">
+            <div class="btn-group pull-right">
+                <button class="btn btn-white btn-sm"><i class="fa fa-arrow-left"></i></button>
+                <button class="btn btn-white btn-sm"><i class="fa fa-arrow-right"></i></button>
+            </div>
+            <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left"
+                    title="刷新收件箱"><i class="fa fa-refresh"></i> 刷新
+            </button>
+            <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top"
+                    title="标记为已读"><i class="fa fa-eye"></i></button>
+            <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top"
+                    title="Mark as important"><i class="fa fa-exclamation"></i></button>
+            <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top"
+                    title="删除"><i class="fa fa-trash-o"></i></button>
+
+        </div>
+    </div>
+    <div class="mail-box">
+        <table class="table table-hover table-mail">
+            {% if type=='收件箱' %}
+                <tbody>
+                {% if mails.count()>0 %}
+                    {% include '_mail.html' %}
+                {% else %}
+                    <div align="center"> 您暂时没有收到邮件<br><br></div>
+                {% endif %}
+                </tbody>
+            {% elif type=='已发送' %}
+                <tbody>
+                {% if mails.count()>0 %}
+                    {% include '_mail_send.html' %}
+                {% else %}
+                    <div align="center"> 您还没有发送过邮件<br><br></div>
+                {% endif %}
+                </tbody>
+            {% elif type=='草稿箱' %}
+                <tbody>
+                {% if mails.count()>0 %}
+                    {% include '_mail.html' %}
+                {% else %}
+                    <div align="center"> 草稿箱为空<br><br></div>
+                {% endif %}
+                </tbody>
+            {% else %}
+                <tbody>
+                {% if mail1.count()>0 or mail2.count()>0 or mail3.count()>0 %}
+                    {% include '_mail_dustbin.html' %}
+                {% else %}
+                    <div align="center"> 暂无已删除邮件<br><br></div>
+                {% endif %}
+                </tbody>
+            {% endif %}
+        </table>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <!-- Mainly scripts -->
+    <script src="/static/Admin/js/jquery-2.1.1.js"></script>
+    <script src="/static/Admin/js/bootstrap.min.js"></script>
+    <script src="/static/Admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/static/Admin/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="/static/Admin/js/inspinia.js"></script>
+    <script src="/static/Admin/js/plugins/pace/pace.min.js"></script>
+
+    <!-- iCheck -->
+    <script src="/static/Admin/js/plugins/iCheck/icheck.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green'
+            });
+        });
+    </script>
+{% endblock %}

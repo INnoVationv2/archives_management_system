@@ -1,0 +1,137 @@
+{% extends 'base_page/base_main.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+    <title> 档案申请 | 档案管理系统 </title>
+    {{ super() }}
+{% endblock %}
+
+{% block page_content %}
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning" xmlns="http://www.w3.org/1999/html">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="wrapper wrapper-content">
+        <div class="row animated fadeInRight">
+            <div class="col-md-8">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>档案借阅管理
+                            {% if apply.status==1 %}
+                                {% if apply.apply_type==1 %}
+                                    (已同意)
+                                {% else %}
+                                    {% if apply.apply_taken_confirm == 1 %}
+                                        (已同意,已取走)
+                                    {% elif apply.apply_taken_confirm == 0 %}
+                                        (已同意,待取走)
+                                    {% elif apply.apply_taken_confirm == 2 %}
+                                        (已返还)
+                                    {% endif %}
+                                {% endif %}
+                            {% elif apply.status==2 %}
+                                (已拒绝)
+                            {% endif %}</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form method="post" class="form-horizontal">
+                            {{ form.csrf_token }}
+                            <div class="form-group"><label class="col-sm-2 control-label">申请人</label>
+                                <div class="col-sm-10">
+                                    <input id='student_id' name="student_id" type="text" class="form-control"
+                                           value="{{ apply.get_apply_name() }}" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">学号</label>
+                                <div class="col-sm-10">
+                                    <input id='student_id' name="student_id" type="text" class="form-control"
+                                           value="{{ apply.student_id }}" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">档案状态</label>
+                                <div class="col-sm-10">
+                                    <input id='name' name="name" type="text" class="form-control" required=""
+                                           value="{{ apply.get_archive_status() }}" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">借阅留言</label>
+                                <div class="col-sm-10">
+                                    <input id='body' name="body" class="form-control" required=""
+                                           value="{{ apply.describe }}" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">借阅类型</label>
+                                <div class="col-sm-10">
+                                    <input id='type' name="type" type="text" class="form-control" required=""
+                                           value="{{ apply.get_apply_type() }}" readonly="readonly">
+                                </div>
+                            </div>
+                            {% if apply.staus==2 %}
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">拒绝理由</label>
+                                    <div class="col-sm-10">
+                                        <input id='forbid_reason' name="forbid_reason" type="text"
+                                               class="form-control" value="{{ apply.forbid_reason }}"
+                                               readonly="readonly">
+                                    </div>
+                                </div>
+                            {% elif apply.status==1 %}
+                                {% if apply.type==1 or apply.apply_taken_confirm==1 %}
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group"><label class="col-sm-2 control-label">归还时间</label>
+                                        <div class="col-sm-10">
+                                            <input id='reason' name="reason" type="text" class="form-control"
+                                                   required=""
+                                                   value="{{ apply.expiry_date }}" readonly="readonly">
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                    </div>
+                                    <div align="right">
+                                        <div class="hr-line-dashed"></div>
+                                        <label>
+                                            <input class="btn btn-danger block m-b btnn" type="submit"
+                                                   id="return_confirm" name="return_confirm" value="确认归还">
+                                        </label>
+                                    </div>
+
+                                {% elif apply.apply_type==2 and apply.apply_taken_confirm==0 %}
+                                    <div class="hr-line-dashed"></div>
+                                    <div align="right">
+                                        <div class="hr-line-dashed"></div>
+                                        <label>
+                                            <input class="btn btn-danger block m-b btnn" type="submit"
+                                                   id="confirm" name="confirm" value="确认取走">
+                                        </label>
+                                    </div>
+                                {% endif %}
+                            {% elif apply.status==0 %}
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">拒绝理由</label>
+                                    <div class="col-sm-10">
+                                        <input id='reason' name="reason" type="text"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <div align="right">
+                                    <div class="hr-line-dashed"></div>
+                                    <label>
+                                        <input class="btn btn-primary block m-b btnn" type="submit"
+                                               id="admit" name="admit" value="同意">
+                                        <input class="btn btn-danger block m-b btnn" type="submit"
+                                               id="forbid" name="forbid" value="拒绝">
+                                    </label>
+                                </div>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

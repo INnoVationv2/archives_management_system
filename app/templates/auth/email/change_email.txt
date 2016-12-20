@@ -1,0 +1,11 @@
+{{ user.username }},
+
+请点击这个链接完成邮箱地址修改
+
+{{ url_for('auth.change_email', token=token, _external=True) }}
+
+祝使用愉快
+
+档案管理系统管理团队
+
+提示: 回复此邮件无效

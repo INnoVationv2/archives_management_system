@@ -1,0 +1,57 @@
+{% extends 'base_page/base_main.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+    <title> 批量导入 | 档案管理系统 </title>
+    {{ super() }}
+    <link href="{{ url_for('static', filename='asdfasdfss/fileinput.css') }}" rel="stylesheet">
+    <link href="" rel="stylesheet">
+{% endblock %}
+
+{% block page_content %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>档案导入</h2>
+            {% for message in get_flashed_messages() %}
+                <div class="alert alert-warning">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>Dropzone Area</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="container kv-main">
+                <form action="{{ url_for('main.import_multi') }}" method="post" enctype="multipart/form-data">
+                    {{ form.csrf_token }}
+                    <div class="form-group">
+                        <input id="file-1" name="file" type="file" multiple class="file" data-overwrite-initial="false"
+                               data-min-file-count="1">
+                        <input type="submit" value="Upload"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript"
+            src="{{ url_for('static',filename='asdfasdfss/fileinput.js') }}"></script>
+    <script>
+        $("#file-1").fileinput({
+            allowedFileExtensions: ['csv', 'xls', 'xlsx'],
+            overwriteInitial: false,
+            maxFileSize: 50000,
+            maxFilesNum: 10,
+            slugCallback: function (filename) {
+                return filename.replace('(', '_').replace(']', '_');
+            }
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% for user in users %}
+    <tr>
+        <td>{{ user.email }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.member_since }}</td>
+        <td>{{ user.last_seen }}</td>
+        <td>{{ user.get_role() }}</td>
+        <td><a href="{{ url_for('.user_profile_edit_admin', id=user.id) }}" class="btn btn-primary btn-sm">
+            <i class="fa fa-pencil"></i> 编辑 </a></td>
+    </tr>
+{% endfor %}

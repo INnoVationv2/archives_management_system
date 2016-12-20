@@ -1,0 +1,31 @@
+{% for apply in applys %}
+    {% if apply.status==0 %}
+        <tr class="unread">
+            {% else %}
+        <tr class="read">
+    {% endif %}
+<td><a href="{{ url_for('.archive_apply_process', id=apply.id) }}">{{ apply.id }} </a></td>
+<td class="mail-ontact"><a
+        href="{{ url_for('.user_profile_info',id=apply.applicant) }}">{{ apply.get_applicant_name() }}</a></td>
+<td class="mail-subject"><a href="{{ url_for('.archive_info',student_id=apply.student_id) }}">{{ apply.student_id }}</a>
+</td>
+{% if view==3 %}
+    <td class="mail-date">{{ moment(apply.expiry_date).fromNow() }}</td>
+{% else %}
+    <td class="mail-date">{{ moment(apply.date).fromNow() }}</td>
+{% endif %}
+{% if apply.status!=0 %}
+    <td><span class="label label-primary">已处理</span></td>
+{% else %}
+    <td><a href="{{ url_for('.archive_apply_process', id=apply.id) }}" class="btn btn-white btn-sm">
+        <span class="label label-warning-light">处理</span></a></td>
+{% endif %}
+{% if apply.status==1 %}
+    <td><span class="label label-primary">已批准</span></td>
+{% elif apply.status==2 %}
+    <td><span class="label label-danger">已拒绝</span></td>
+{% elif apply.status==0 %}
+    <td> 未处理</td>
+{% endif %}
+</tr>
+{% endfor %}

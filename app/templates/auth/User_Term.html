@@ -1,0 +1,28 @@
+{% extends 'base_page/base_login.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+<!DOCTYPE html>
+<html>
+
+{% block head %}
+    {{ super() }}
+    <title>用户条款 | 档案管理系统</title>
+{% endblock %}
+
+{% block content %}
+    <body class="gray-bg">
+    <div class="bg-image">
+
+        <div class="middle-box text-center loginscreen animated fadeInDown">
+            <div>
+                <br><br>
+                <h2>用户条款</h2>
+                <br>
+                <form class="m-t" role="form">
+                    <h2>1.亲爱的用户，我是你爹:-)</h2>
+                    <h2>2.一切听爹的^_^</h2>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

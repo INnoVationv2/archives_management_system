@@ -1,0 +1,24 @@
+{% extends 'base_page/base_login.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block head %}
+    {{ super() }}
+    <title>500错误 | 档案管理系统</title>
+
+{% endblock %}
+
+{% block content %}
+    <body class="gray-bg">
+
+    <div class="middle-box text-center animated fadeInDown">
+        <h1>500</h1>
+        <h2>ERROR</h2>
+        <h3 class="font-bold">服务器错误</h3>
+
+        <div class="error-desc">
+            服务器开小差了，请稍侯重试.<br/>
+            返回<br/><a href="{{ url_for('main.index') }}" class="btn btn-primary m-t">主页.</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base_page/base_login.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+<!DOCTYPE html>
+<html>
+
+{% block head %}
+    {{ super() }}
+    <title>验证 | 档案管理系统</title>
+{% endblock %}
+
+{% block content %}
+    <body class="gray-bg">
+    <div class="bg-image">
+
+        <div class="middle-box text-center loginscreen animated fadeInDown">
+            <div>
+                <br><br>
+                <h2>你好, {{ current_user.username }}!</h2>
+                <br>
+                <form class="m-t" role="form" method="post">
+                    <p>要进入这个网页,您必须先验证您的注册邮箱.
+                        点击您的邮箱, 您应该收到了一封验证邮件..</p>
+                    <p>
+                        需要重新发送一封邮件?
+                        <a href="{{ url_for('auth.resend_confirmation') }}">点击这里</a>
+                    </p>
+                </form>
+                <p class="m-t">
+                    <small>Copyright © 2016 Power by <a target="_blank"
+                                                        href="http://www.cnblogs.com/INnoVationv2/">INnoVationv2</a>
+                    </small>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'base_page/base_mail.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+    <title> 新邮件 | 档案管理系统 </title>
+    <link href="/static/Admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/Admin/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/static/Admin/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/static/Admin/css/animate.css" rel="stylesheet">
+    <link href="/static/Admin/css/style.css" rel="stylesheet">
+{% endblock %}
+
+{% block mail_content %}
+    <div class="mail-box-header">
+        <div class="pull-right tooltip-demo">
+            <form class="m-t" role="form" method="post">
+                <input class="btn btn-sm btn-primary" data-toggle="tooltip" name="draft" id="draft" type="submit"
+                       data-placement="top" value="草稿" title="存为草稿">
+                <a href="{{ url_for('main.mail_inbox') }}" class="btn btn-danger btn-sm" data-toggle="tooltip"
+                   data-placement="top" title="放弃此邮件"><i class="fa fa-times"></i> 放弃</a>
+            </form>
+        </div>
+        <h2>
+            写邮件
+        </h2>
+    </div>
+    <div class="mail-box">
+        <div class="mail-body">
+            <form class="form-horizontal" method="post" role="form">
+                {{ form.csrf_token }}
+                {% if current_user.is_administrator() %}
+                    <div class="form-group"><label class="col-sm-2 control-label">收件人:</label>
+                        <div class="col-sm-10"><input type="text" class="form-control" value="{{ receiver }}"
+                                                      name="receiver"
+                                                      id="receiver">
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="form-group"><label class="col-sm-2 control-label">主题:</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" value="" name="subject" id="subject">
+                    </div>
+                </div>
+                <div class="form-group"><label class="col-sm-2 control-label">正文:</label>
+                    <div class="col-sm-10">
+                        <label>
+                        <textarea name='body' id='body' class="form-control"
+                                  style="resize:none;margin: 0px -4.94318px 0px 0px; width: 881px; height: 213px;">
+
+                        </textarea>
+                        </label>
+                    </div>
+                </div>
+                <div class="mail-body text-right tooltip-demo">
+                    <input class="btn btn-sm btn-primary" data-toggle="tooltip" name="send" id="send" type="submit"
+                           data-placement="top" value="发送">
+                    <input class="btn btn-sm btn-primary" data-toggle="tooltip" name="draft" id="draft" type="submit"
+                           data-placement="top" title="存为草稿" value="草稿">
+                    <a href="{{ url_for('main.mail_inbox') }}" class="btn btn-danger btn-sm" data-toggle="tooltip"
+                       data-placement="top" title="放弃此邮件"><i class="fa fa-times"></i> 放弃</a>
+                </div>
+            </form>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <!-- Mainly scripts -->
+    <script src="/static/Admin/js/jquery-2.1.1.js"></script>
+    <script src="/static/Admin/js/bootstrap.min.js"></script>
+    <script src="/static/Admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/static/Admin/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="/static/Admin/js/inspinia.js"></script>
+    <script src="/static/Admin/js/plugins/pace/pace.min.js"></script>
+
+    <!-- iCheck -->
+    <script src="/static/Admin/js/plugins/iCheck/icheck.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green'
+            });
+        });
+    </script>
+{% endblock %}
+
+
+

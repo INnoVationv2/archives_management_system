@@ -1,0 +1,8 @@
+<p>{{ user.username }},</p>
+<p>欢迎使用 <b>档案管理系统</b>!</p>
+<p>为了确认您的账户邮箱地址，请 <a href="{{ url_for('auth.confirm', token=token, _external=True) }}">点击这里</a>.</p>
+<p>如上述链接失效，您也可以复制下面的链接至浏览器地址栏:</p>
+<p>{{ url_for('auth.confirm', token=token, _external=True) }}</p>
+<p>祝使用愉快,,</p>
+<p>档案管理系统管理团队</p>
+<p><small>注：请勿回复此邮件.</small></p>
