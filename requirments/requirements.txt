@@ -53,7 +53,7 @@ onboard==1.2.0
 padme==1.1.1
 parsel==1.0.2
 pexpect==4.0.1
-Pillow==3.1.2
+Pillow==8.2.0
 plainbox==0.25
 ptyprocess==0.5
 pyasn1==0.1.9
