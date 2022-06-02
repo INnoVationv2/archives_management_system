@@ -34,7 +34,7 @@ Flask-WTF==0.9.4
 ForgeryPy==0.1
 guacamole==0.9.2
 himawaripy==1.1
-html5lib==0.999
+html5lib==0.99999999
 httplib2==0.9.1
 idna==2.1
 image==1.5.3
