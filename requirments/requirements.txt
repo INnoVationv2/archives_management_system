@@ -83,7 +83,7 @@ pyxdg==0.25
 QScintilla==2.9.3
 queuelib==1.4.2
 redis==2.10.5
-reportlab==3.3.0
+reportlab==3.5.55
 requests==2.9.1
 rsa==3.4.2
 Scrapy==1.1.1
