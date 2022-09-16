@@ -44,7 +44,7 @@ kombu==4.0.0
 language-selector==0.1
 louis==2.6.4
 lxml==3.6.0
-Mako==0.9.1
+Mako==1.2.2
 Markdown==2.6.6
 MarkupSafe==0.18
 mysqlclient==1.3.9
